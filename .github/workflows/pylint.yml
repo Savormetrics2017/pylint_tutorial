@@ -21,13 +21,21 @@ jobs:
 
     - name: Run Pylint
       run: |
-        pylint_score=$(pylint . | tail -2 | grep -oP '[0-9\.]+/10' | head -1 | grep -oP '[0-9\.]+')
-        echo "Pylint score was $pylint_score"
-        if [ $(echo "$pylint_score < 8" | bc -l) -eq 1 ]; then 
-          echo "Pylint score is less than 8, failing the task."
+        pylint_scores=$(pylint **/*.py | grep -oP '[0-9\.]+/10' | grep -oP '[0-9\.]+')
+        total_score=0
+        file_count=0
+        for score in $pylint_scores
+        do
+          total_score=$(echo "$total_score + $score" | bc -l)
+          file_count=$((file_count + 1))
+        done
+        average_score=$(echo "$total_score / $file_count" | bc -l)
+        echo "Average Pylint score was $average_score"
+        if [ $(echo "$average_score < 8" | bc -l) -eq 1 ]; then 
+          echo "Average Pylint score is less than 8, failing the task."
           exit 1
         else
-          echo "Pylint score is 8 or above, task passed."
+          echo "Average Pylint score is 8 or above, task passed."
         fi
 
        

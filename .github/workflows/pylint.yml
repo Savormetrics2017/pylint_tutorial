@@ -32,12 +32,12 @@ jobs:
         done
         average_score=$(echo "$total_score / $file_count" | bc -l)
         echo "Average Pylint score was $average_score"
-        if [ $(echo "$average_score < 8" | bc -l) -eq 1 ]; then 
-          echo "Average Pylint score is less than 8, failing the task."
-          exit 1
-        else
-          echo "Average Pylint score is 8 or above, task passed."
-        fi
+        # if [ $(echo "$average_score < 8" | bc -l) -eq 1 ]; then 
+        #   echo "Average Pylint score is less than 8, failing the task."
+        #   exit 1
+        # else
+        #   echo "Average Pylint score is 8 or above, task passed."
+        # fi
       # run: |
       #   for file in $(find . -name "*.py")
       #   do

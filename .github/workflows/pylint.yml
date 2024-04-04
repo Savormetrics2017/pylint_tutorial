@@ -37,16 +37,33 @@ jobs:
       #   else
       #     echo "Average Pylint score is 8 or above, task passed."
       #   fi
-      run: |
+      # run: |
+      #   for file in $(find . -name "*.py")
+      #   do
+      #     pylint_score=$(pylint $file | tail -2 | grep -oP '[0-9\.]+/10' | head -1 | grep -oP '[0-9\.]+')
+      #     echo "Pylint score for $file was $pylint_score"
+      #     if [ $(echo "$pylint_score < 8" | bc -l) -eq 1 ]; then 
+      #       echo "Pylint score for $file is less than 8, failing the task."
+      #       exit 1
+      #     fi
+      #   done
+      #   echo "All Python files have a Pylint score of 8 or above, task passed."
+      run:  |
+        exit_code=0
         for file in $(find . -name "*.py")
         do
           pylint_score=$(pylint $file | tail -2 | grep -oP '[0-9\.]+/10' | head -1 | grep -oP '[0-9\.]+')
           echo "Pylint score for $file was $pylint_score"
           if [ $(echo "$pylint_score < 8" | bc -l) -eq 1 ]; then 
-            echo "Pylint score for $file is less than 8, failing the task."
-            exit 1
+            echo "Pylint score for $file is less than 8."
+            exit_code=1
           fi
         done
-        echo "All Python files have a Pylint score of 8 or above, task passed."
+        if [ $exit_code -eq 1 ]; then
+          echo "One or more Python files have a Pylint score of less than 8, failing the task."
+          exit 1
+        else
+          echo "All Python files have a Pylint score of 8 or above, task passed."
+        fi
 
        

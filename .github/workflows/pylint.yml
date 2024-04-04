@@ -21,7 +21,7 @@ jobs:
 
     - name: Run Pylint
       run: |
-        pylint_score=$(pylint **/*.py | tail -2 | grep -oP '[0-9\.]+/10' | head -1 | grep -oP '[0-9\.]+')
+        pylint_score=$(pylint . | tail -2 | grep -oP '[0-9\.]+/10' | head -1 | grep -oP '[0-9\.]+')
         echo "Pylint score was $pylint_score"
         if [ $(echo "$pylint_score < 8" | bc -l) -eq 1 ]; then 
           echo "Pylint score is less than 8, failing the task."

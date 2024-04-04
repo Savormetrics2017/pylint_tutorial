@@ -1,4 +1,4 @@
-# bad_practices.py
+# bad_practices.py.
 
 def badName(): # Pylint prefers snake_case for function names
     a = 1 # Pylint prefers meaningful variable names

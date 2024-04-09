@@ -1,7 +1,5 @@
-"""
-This is a module docstring. It explains what this module is about.
-"""
-def good_name():
+
+def good_name():    
     """
     This is a function docstring. It explains what this function does.
     """
